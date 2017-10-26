@@ -83,19 +83,27 @@ class NoteForm extends Component {
   render() {
     const pageType = _.get(this, 'props.match.params.type');
 
-    return (
-      <div className="noteFormComponent">
-        <span><b>Title:</b> <input type="text" value={this.state.noteTitle} onChange={(ev) => this.updateState(ev, 'TITLE')}/></span>
-        <br/>
-        <span><b>Body:</b> <input type="text" value={this.state.noteBody} onChange={(ev) => this.updateState(ev, 'BODY')}/></span>
-        <br/>
-        {this.state.isError &&
-            <span>Please Enter all missing fields</span>
-        }
-        <br/>
-        <input type="button" value="Save" onClick={(ev) => this.saveNote(ev, pageType)} />
-        <input type="button" value="Clear" onClick={(ev) => this.updateState(ev, 'CLEAR')} />
-        <input type="button" value="Cancel" onClick={this.props.history.goBack} />
+   return (
+      <div className="note-form">
+        <h1>Add New Note</h1>
+        <div className="noteFormComponent">
+          <label>Title: </label>
+          <input type="text" value={this.state.noteTitle} onChange={(ev) => this.updateState(ev, 'TITLE')}/>
+
+         <label>Body: </label>
+         <textarea rows="6" value={this.state.noteBody} onChange={(ev) => this.updateState(ev, 'BODY')}>
+         </textarea>
+
+         {this.state.isError &&
+              <span>Please Enter all missing fields</span>
+          }
+          <br/>
+          <div className="toolbar">
+            <input type="button" value="Save" onClick={(ev) => this.saveNote(ev, pageType)} className="add-button"/>
+            <input type="button" value="Clear" onClick={(ev) => this.updateState(ev, 'CLEAR')} className="edit-button"/>
+            <input type="button" value="Cancel" onClick={this.props.history.goBack} className="delete-button"/>
+          </div>
+        </div>
       </div>
     );
   }

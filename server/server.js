@@ -12,6 +12,7 @@ module.exports = {
   app: function () {
     const app = express();
     const indexPath = path.join(__dirname, '../index.html');
+    const stylePath = path.join(__dirname, '../index.css');
     const publicPath = express.static(path.join(__dirname, '../dist'));
 
     app.use(logger('dev'));
@@ -94,6 +95,7 @@ module.exports = {
     });
 
     app.get('/', function (_, res) { res.sendFile(indexPath) });
+    app.get('/index.css', function (_, res) { res.sendFile(stylePath) });
 
     return app;
   }

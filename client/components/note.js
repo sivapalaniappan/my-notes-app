@@ -20,19 +20,27 @@ class NotesList extends Component {
   render() {
     const { note = {} } = this.props;
 
-    return (
-      <div className="Note">
-        <h1>Title: {note.title}</h1>
-        <h3>Body: {note.body}</h3>
-        <br/>
-        <h5>Created: {note.createDate} <br/> Updated: {note.updateDate}</h5>
-        <Link to={{
-                  pathname: '/note/edit',
-                  query: { noteId: note.id }
-                }}>
-          <button>EDIT</button>
-        </Link>
-        <button onClick={(ev) => this.deleteThisNote(ev, note.id)}>DELETE</button>
+   return (
+      <div className="note">
+        <h1>{note.title}</h1>
+        <div className="toolbar">
+          <Link to={{
+                    pathname: '/note/edit',
+                    query: { noteId: note.id }
+                  }}>
+            <button className="edit-button">EDIT</button>
+          </Link>
+          <button onClick={(ev) => this.deleteThisNote(ev, note.id)} className="delete-button">DELETE</button>
+        </div>
+        <p>{note.body}</p>
+        <div>
+          <span className="create-time">
+            Created: {note.createDate}
+          </span>
+          <span className="update-time">
+            Last Updated: {note.updateDate}
+          </span>
+        </div>
       </div>
     );
   }

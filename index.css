@@ -1,0 +1,89 @@
+body {
+  margin: 0 auto 0 auto;
+  padding: 10;
+  font-family: sans-serif;
+  width: 60%;
+}
+
+h1 {
+  padding: 10px;
+  background-color: #e1e1ea ;
+}
+
+.add-button {
+    background-color: #4CAF50 ;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.toolbar {
+  /*background-color: #e1e1ea ;*/
+  text-align: right;
+}
+
+.notes-item {
+  border-bottom: 1px solid #b4b4cb ;
+  padding-bottom: 3px;
+}
+
+a {
+  color: #08478e ;
+  text-decoration: none;
+}
+
+.edit-button {
+    background-color: #008CBA ;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: #f44336 ;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.note p {
+  /*text-align: right;*/
+  font-size: 20px;
+  border-bottom: 1px solid #b4b4cb ;
+  padding-bottom: 20px;
+}
+
+.create-time {
+  float: left;
+}
+
+.update-time {
+  float: right;
+}
+input[type=text], textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

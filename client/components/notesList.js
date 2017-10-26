@@ -11,19 +11,24 @@ export class NotesList extends Component {
   }
 
   render() {
-    let { notesList } = this.props;
+    let { notesList = [] } = this.props;
 
-    return (
-      <div className="NotesList">
-        <h1>NotesList</h1>
-        <Link to={`/note/new`}>
-          <input type="button" value="Add New Note"></input>
-        </Link>
+   return (
+      <div className="notes-list">
+        <h1>Notes List</h1>
+        <div className="toolbar">
+          <Link to={`/note/new`}>
+            <input type="button" value="Add New Note" className="add-button"></input>
+          </Link>
+        </div>
         {notesList && notesList.map((note, index) => {
           return (
-            <Link key={index} to={`/notes/${note.id}`}>
-              <h2>{note.title}</h2>
-            </Link>
+            <div key={index} className="notes-item">
+              <Link to={`/notes/${note.id}`}>
+                <h2>{note.title}</h2>
+              </Link>
+              <p>{note.body}</p>
+            </div>
           )
         })
         }
@@ -32,13 +37,13 @@ export class NotesList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     notesList: state.notes
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     getAllNotes: () => dispatch(getNotes())
   }
