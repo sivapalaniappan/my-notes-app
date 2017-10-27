@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import './App.css';
 
 import { getNote, deleteNote } from '../actions';
 
-class NotesList extends Component {
+export class Note extends Component {
   componentWillMount() {
-    let { noteId = '' } = this.props.match.params;
+    let noteId = _.get(this, 'props.match.params') || '';
     this.props.getNoteToDisplay(noteId);
   }
 
@@ -21,7 +22,7 @@ class NotesList extends Component {
   render() {
     const { note = {} } = this.props;
 
-   return (
+    return (
       <div className="note">
         <h1>{note.title}</h1>
         <div className="toolbar">
@@ -47,17 +48,17 @@ class NotesList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     note: state.selectedNote
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     getNoteToDisplay: (noteId) => dispatch(getNote(noteId)),
     deleteCurrentNote: (noteId, callback) => dispatch(deleteNote(noteId, callback))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotesList);
+export default connect(mapStateToProps, mapDispatchToProps)(Note);

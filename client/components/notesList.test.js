@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import NotesListConnected, { NotesList, mapStateToProps, mapDispatchToProps } from './notesList';
-import { Link } from 'react-router-dom';
 
-// MOCKING THIS HERE SO THAT WE CAN COMPLETELY ISOLATE OUR CODE FROM DEPENDENCIES
+import { Link } from 'react-router-dom';
 jest.mock('react-router-dom');
+// MOCKING THIS HERE SO THAT WE CAN COMPLETELY ISOLATE OUR CODE FROM DEPENDENCIES
 Link.mockImplementation(() => {
   return {
     render: jest.fn(
@@ -50,7 +50,7 @@ describe('client/components/notesList', () => {
       expect(wrapper.html()).toEqual(expected);
     });
 
-    it('renders without crashing when notes is notes present in state', () => {
+    it('renders without crashing when notes property is not present in state', () => {
       // Arrange
       store.getState = jest.fn().mockImplementation( () => ({ foo: 'bar' }) );
       const expected = '<div class=\"notes-list\"><h1>Notes List</h1><div class=\"toolbar\"><div>MockedLink</div></div></div>';
