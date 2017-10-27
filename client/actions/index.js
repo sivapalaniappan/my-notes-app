@@ -1,7 +1,7 @@
 import * as apiHelper from '../utils/apiHelper';
 
 export const SET_ALL_NOTES = 'SET_ALL_NOTES';
-export const SET_SELECTED_NOTE = 'SET_CUTTENT_NOTE';
+export const SET_SELECTED_NOTE = 'SET_SELECTED_NOTE';
 
 export const setNotes = notes => ({
   type: SET_ALL_NOTES,

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import NotesListConnected, { NotesList, mapStateToProps, mapDispatchToProps } from './notesList';
 
 import { Link } from 'react-router-dom';
