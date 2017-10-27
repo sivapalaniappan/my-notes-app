@@ -88,7 +88,7 @@ describe('client/components/note.js', () => {
 
     beforeEach(() => {
       props = {
-        match: { params: 123456 },
+        match: { params: { noteId: 123456 } },
         getNoteToDisplay: jest.fn(),
         deleteCurrentNote: jest.fn(),
         note: {

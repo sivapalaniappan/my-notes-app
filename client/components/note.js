@@ -8,7 +8,7 @@ import { getNote, deleteNote } from '../actions';
 
 export class Note extends Component {
   componentWillMount() {
-    let noteId = _.get(this, 'props.match.params') || '';
+    let noteId = _.get(this, 'props.match.params.noteId') || '';
     this.props.getNoteToDisplay(noteId);
   }
 
