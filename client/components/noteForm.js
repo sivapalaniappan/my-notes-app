@@ -88,19 +88,17 @@ class NoteForm extends Component {
   render() {
     const pageType = _.get(this, 'props.match.params.type');
 
-   return (
+    return (
       <div className="note-form">
         <h1>Add New Note</h1>
         <div className="noteFormComponent">
           <label>Title: </label>
           <input type="text" value={this.state.noteTitle} onChange={(ev) => this.updateState(ev, 'TITLE')}/>
-
-         <label>Body: </label>
-         <textarea rows="6" value={this.state.noteBody} onChange={(ev) => this.updateState(ev, 'BODY')}>
-         </textarea>
-
-         {this.state.isError &&
-              <span>Please Enter all missing fields</span>
+          <label>Body: </label>
+          <textarea rows="6" value={this.state.noteBody} onChange={(ev) => this.updateState(ev, 'BODY')}>
+          </textarea>
+          {this.state.isError &&
+            <span>Please Enter all missing fields</span>
           }
           <br/>
           <div className="toolbar">
@@ -114,13 +112,13 @@ class NoteForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
   return {
     note: state.selectedNote
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+export const mapDispatchToProps = (dispatch) => {
   return {
     getNoteToEdit: (noteId) => dispatch(getNote(noteId)),
     saveThisNote: (note, callback) => dispatch(saveNote(note, callback)),

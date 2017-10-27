@@ -157,7 +157,7 @@ describe('client/components/note.js', () => {
   });
 
   describe('mapStateToProps', () => {
-    it('should return an object with notesList value from the state.notes', () => {
+    it('should return an object with note value from the state.selectedNote', () => {
       // Arrange
       const inputState = {
         selectedNote: { foo: 'bar' }
