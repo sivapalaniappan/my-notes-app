@@ -52,10 +52,15 @@ class NoteForm extends Component {
         body
       };
       if(pageType === 'edit') {
-        this.props.editThisNote(newNote);
+        const redirectUrl = `/notes/${id}`;
+        this.props.editThisNote(newNote, () => {
+          this.props.history.push(redirectUrl);
+        });
       }
       else {
-        this.props.saveThisNote(newNote);
+        this.props.saveThisNote(newNote, () => {
+          this.props.history.push('/');
+        });
       }
     }
     else {
@@ -118,8 +123,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getNoteToEdit: (noteId) => dispatch(getNote(noteId)),
-    saveThisNote: (note) => dispatch(saveNote(note)),
-    editThisNote: (note) => dispatch(editNote(note))
+    saveThisNote: (note, callback) => dispatch(saveNote(note, callback)),
+    editThisNote: (note, callback) => dispatch(editNote(note, callback))
   };
 };
 

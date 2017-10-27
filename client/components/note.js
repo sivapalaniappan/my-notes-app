@@ -13,8 +13,9 @@ class NotesList extends Component {
 
   deleteThisNote(ev, noteId) {
     ev.preventDefault();
-    this.props.deleteCurrentNote(noteId);
-    // this.props.history.push('/');
+    this.props.deleteCurrentNote(noteId, () => {
+      this.props.history.push('/');
+    });
   };
 
   render() {
@@ -55,7 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getNoteToDisplay: (noteId) => dispatch(getNote(noteId)),
-    deleteCurrentNote: (noteId) => dispatch(deleteNote(noteId))
+    deleteCurrentNote: (noteId, callback) => dispatch(deleteNote(noteId, callback))
   };
 };
 

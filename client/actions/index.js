@@ -21,14 +21,14 @@ export const getNote = (noteId) => dispatch => (
   apiHelper.getNote(noteId).then(res => dispatch(setSelectedNote(res)))
 );
 
-export const deleteNote = (noteId) => dispatch => (
-  apiHelper.deleteNote(noteId).then(res => dispatch(getNotes()))
+export const deleteNote = (noteId, callback) => dispatch => (
+  apiHelper.deleteNote(noteId).then(res => callback())
 );
 
-export const editNote = (note) => dispatch => (
-  apiHelper.editNote(note).then(res => {return;})
+export const editNote = (note, callback) => dispatch => (
+  apiHelper.editNote(note).then(res => callback())
 );
 
-export const saveNote = (note) => dispatch => (
-  apiHelper.saveNote(note).then(res => {return;})
+export const saveNote = (note, callback) => dispatch => (
+  apiHelper.saveNote(note).then(res => callback())
 );

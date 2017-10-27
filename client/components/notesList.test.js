@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import NotesListConnected, { NotesList, mapStateToProps, mapDispatchToProps } from './notesList';
 import { Link } from 'react-router-dom';
 
+// MOCKING THIS HERE SO THAT WE CAN COMPLETELY ISOLATE OUR CODE FROM DEPENDENCIES
 jest.mock('react-router-dom');
 Link.mockImplementation(() => {
   return {
     render: jest.fn(
-      () => <div>mock</div>
+      () => <div>MockedLink</div>
     )
   }
 });
 
-// import * as pageActions from '../actions';
-// jest.mock('../actions');
-// pageActions.getAllNotes.mockImplementation(() => {});
+import * as pageActions from '../actions';
+jest.mock('../actions');
+pageActions.getNotes.mockImplementation(() => 'MockedGetNotesAction');
 
 describe('client/components/notesList', () => {
 
@@ -24,67 +25,96 @@ describe('client/components/notesList', () => {
     jest.clearAllMocks();
   });
 
-  // describe.skip('connected components', () => {
-  //   it.skip('renders without crashing', () => {
-  //     // Arrange
-  //     const store = {
-  //       getState: jest.fn().mockImplementation( () => ({ notes: [{id: '123', title: '456'}, {id: '13', title: '456'}] }) ),
-  //       dispatch: jest.fn(),
-  //       subscribe: jest.fn()
-  //     };
-  //     const props = {
-  //       getAllNotes: jest.fn()
-  //     };
-  //
-  //     // Act
-  //     const wrapper = shallow(<NotesListConnected store={store} {...props} />);
-  //     const divNode = wrapper.children();
-  //     // const
-  //     // const notesListItemNode = wrapper.children().getElements()[2];
-  //     // const newNoteButtonNode = wrapper.children().getElements()[1];
-  //
-  //     // Assert
-  //     expect(wrapper.html()).toEqual('<div class=\"NotesList\"><h1>NotesList</h1><div>mock</div><div>mock</div><div>mock</div></div>');
-  //     expect(divNode).toBe(1);
-  //   });
-  // });
+  describe('NotesListConnected', () => {
+    let store, props;
 
-  describe('<NotesList />', () => {
-    let props;
     beforeEach(() => {
+      store = {
+        getState: jest.fn().mockImplementation( () => ({ notes: [{id: '123', title: '456'}] }) ),
+        dispatch: jest.fn(),
+        subscribe: jest.fn()
+      };
       props = {
-        getAllNotes: jest.fn(),
-        notesList: [{id: 123456, title: 'foo'}]
+        getAllNotes: jest.fn()
       };
     });
 
-    afterEach(() => {});
-
-    it('should render successfully with known good data', () => {
+    it('renders successfully with known good data', () => {
       // Arrange
-      const store = {
+      const expected = '<div class=\"notes-list\"><h1>Notes List</h1><div class=\"toolbar\"><div>MockedLink</div></div><div class=\"notes-item\"><div>MockedLink</div><p></p></div></div>';
+
+      // Act
+      const wrapper = shallow(<NotesListConnected store={store} {...props} />);
+
+      // Assert
+      expect(wrapper.html()).toEqual(expected);
+    });
+
+    it('renders without crashing when notes is notes present in state', () => {
+      // Arrange
+      store.getState = jest.fn().mockImplementation( () => ({ foo: 'bar' }) );
+      const expected = '<div class=\"notes-list\"><h1>Notes List</h1><div class=\"toolbar\"><div>MockedLink</div></div></div>';
+
+      // Act
+      const wrapper = shallow(<NotesListConnected store={store} {...props} />);
+
+      // Assert
+      expect(wrapper.html()).toEqual(expected);
+    });
+  });
+
+  // Doing this type of checking here so that we can ensure expected props are passed on to the mocked components
+  describe('<NotesList />', () => {
+    let props, store;
+
+    beforeEach(() => {
+      props = {
+        getAllNotes: jest.fn(),
+        notesList: [{id: 123456, title: 'foo', body: 'bar' }]
+      };
+      store = {
         getState: jest.fn().mockImplementation( () => ({ notes: [] }) ),
         dispatch: jest.fn(),
         subscribe: jest.fn()
+      };
+    });
+
+    it('should render successfully with known good data', () => {
+      // Arrange
+      const expected = {
+        newNoteUrl: '/note/new',
+        buttonNode: (<input className="add-button" type="button" value="Add New Note" />),
+        noteTitleNode: (<h2>foo</h2>),
+        noteDetailsUrl: '/notes/123456',
+        noteBodyNode: (<p>bar</p>)
       };
       const instance = shallow(<NotesList store={store} {...props} />).instance();
 
       // Act
       const actual = instance.render();
+
       const headingNode = actual.props.children[0];
       const newNoteButtonNode = actual.props.children[1].props.children;
-      const notesList = actual.props.children[2];
-      const notesListItem = notesList[0].props.children;
-      const noteItemNode = noteListItems[0].props.children;
+
+      const notesListItem1 = actual.props.children[2][0];
+      const noteTitleNode = notesListItem1.props.children[0];
+      const noteBodyNode = notesListItem1.props.children[1];
 
       // Assert
       expect(actual.type).toBe('div');
       expect(actual.props.className).toBe('notes-list');
+
       expect(headingNode.type).toBe('h1');
       expect(headingNode.props.children).toBe('Notes List');
-      expect(newNoteButtonNode.props.to).toBe('/note/new');
-      expect(newNoteButtonNode.props.children).toEqual(<input className="add-button" type="button" value="Add New Note" />);
-      expect(noteItemNode.props.to).toBe('/notes/123456');
+
+      expect(newNoteButtonNode.props.to).toBe(expected.newNoteUrl);
+      expect(newNoteButtonNode.props.children).toEqual(expected.buttonNode);
+
+      expect(notesListItem1.props.className).toEqual('notes-item');
+      expect(noteTitleNode.props.to).toBe(expected.noteDetailsUrl);
+      expect(noteTitleNode.props.children).toEqual(expected.noteTitleNode);
+      expect(noteBodyNode).toEqual(expected.noteBodyNode);
+
       expect(props.getAllNotes).toHaveBeenCalled();
     });
   });
@@ -108,7 +138,7 @@ describe('client/components/notesList', () => {
   });
 
   describe('mapDispatchToProps', () => {
-    it('should return an object with getAllNotes', () => {
+    it('should map dispatch(getNotes()) to getAllNotes method on props', () => {
       // Arrange
       const dispatch = jest.fn();
       const expected = {
@@ -120,8 +150,7 @@ describe('client/components/notesList', () => {
       actual.getAllNotes();
 
       // Assert
-      expect(actual).toEqual(expected);
-      expect(dispatch).toHaveBeenCalled();
+      expect(dispatch).toHaveBeenCalledWith('MockedGetNotesAction');
     });
   });
 });

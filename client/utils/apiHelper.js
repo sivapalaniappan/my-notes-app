@@ -1,52 +1,45 @@
 const headers = {
   'Accept': 'application/json',
-  'Cache-Control': 'no-cache',
   'Content-Type': 'application/json'
 };
 
-const hostUrl = 'http://localhost:8080';
-// const hostUrl = '';
-
-export const getHeartbeat = () => {
-  return fetch(`${hostUrl}/api`, headers)
-    .then(res => res.json());
-};
-
 export const getNotes = () => {
-  return fetch(`${hostUrl}/api/notes`, headers)
-    .then(res => res.json());
+  return fetch(`/api/notes`, {
+            method: 'GET',
+            headers
+          })
+          .then(res => res.json());
 };
 
 export const getNote = (noteId) => {
-  return fetch(`${hostUrl}/api/note/${noteId}`, headers)
-    .then(res => res.json());
+  return fetch(`/api/note/${noteId}`, {
+            method: 'GET',
+            headers
+          })
+          .then(res => res.json());
 };
 
 export const deleteNote = (noteId) => {
-  headers.method = 'DELETE';
-  return fetch(`${hostUrl}/api/note/${noteId}`, headers)
-    .then(() => {});
+  return fetch(`/api/note/${noteId}`, {
+            method: 'DELETE',
+            headers
+          })
+          .then(() => {});
 };
 
 export const editNote = (note) => {
-  return fetch(`${hostUrl}/api/note/${note.id}`, {
+  return fetch(`/api/note/${note.id}`, {
             method: 'PUT',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify(note)
           })
           .then(res => res);
 };
 
 export const saveNote = (note) => {
-  return fetch(`${hostUrl}/api/saveNote`, {
+  return fetch(`/api/saveNote`, {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
+            headers,
             body: JSON.stringify(note)
           })
           .then(res => res.json());

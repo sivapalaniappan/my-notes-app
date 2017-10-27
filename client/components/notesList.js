@@ -13,7 +13,7 @@ export class NotesList extends Component {
   render() {
     let { notesList = [] } = this.props;
 
-   return (
+    return (
       <div className="notes-list">
         <h1>Notes List</h1>
         <div className="toolbar">

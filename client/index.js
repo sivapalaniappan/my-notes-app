@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import thunk from 'redux-thunk'; //TODO: Check if really needed
-import logger from 'redux-logger'; //TODO: Check if really needed
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 import './index.css';
 import App from './container/app';

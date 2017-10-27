@@ -4,8 +4,8 @@
   "description": "A Simple notes application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm build && node dist/app.js",
+    "test": "jest --coverage --colors",
+    "start": "node ./app.js",
     "build": "webpack --config ./webpack.config.js --progress --colors"
   },
   "author": "Sivapalaniappan Singaravelu",
